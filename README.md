@@ -1,6 +1,6 @@
 # CS6910 Project
 
-+ Mitesh Project link:
++ Mitesh Sir's Project link:
   + https://wandb.ai/miteshk/assignments/reports/CS6910-Project--VmlldzoxNDUyMzI0
 
 + Proposal [Jan 31]:
