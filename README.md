@@ -1,11 +1,13 @@
 # CS6910 Project
 
-[2022-01-26]
+[2022-01-28]
 + Questions to ask to TA:
   + What is the format of ASR's output ? If we submit a hindi speech will ASR generate the output using roman dialect.
     + Depends on training data !!
   + Can we change our project if we are not able to find appropriate sentences ?
   + If same language can be selected by multiple teams ?
+
+[2022-01-26]
 + Domain:
   + Voice search: news, music
     + Social impact:
