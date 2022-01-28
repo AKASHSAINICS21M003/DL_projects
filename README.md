@@ -1,13 +1,17 @@
 # CS6910 Project
 
-[2022-01-28]
+### [2022-01-28]
 + Questions to ask to TA:
-  + What is the format of ASR's output ? If we submit a hindi speech will ASR generate the output using roman dialect.
-    + Depends on training data !!
+  + What is the format of ASR's output ?
+    + Is ASR a speech to text model ?
+    + If we submit a hindi speech will ASR generate the output using roman dialect.
+      + Depends on training data !!
   + Can we change our project if we are not able to find appropriate sentences ?
   + If same language can be selected by multiple teams ?
+  + Whether speech processing should be done in the application or can be performed after data collection ?
+    + We may have to do speech processing in the app, since the last date of feature adding is 15 Feb.
 
-[2022-01-26]
+### [2022-01-26]
 + Domain:
   + Voice search: news, music
     + Social impact:
@@ -34,15 +38,12 @@
 + Language:
   + Hindi or English (only one)
 
-
-[2022-01-21]
+### [2022-01-21]
 + Mitesh Sir's Project link:
   + https://wandb.ai/miteshk/assignments/reports/CS6910-Project--VmlldzoxNDUyMzI0
-
 + Proposal [Jan 31]:
   + Use Latex, 1 page
-
-TA : Tahir Javed
++ TA : Tahir Javed
 + Task:
   + Language requiement:
     + Same language with multi team
@@ -53,6 +54,5 @@ TA : Tahir Javed
     + https://indicnlp.ai4bharat.org/corpora/
   + TA will put the sentences to the app's server and then we need to generate the recordings
     + Do basic speech processing: to reduce noise
-
 + Schedule:
   + Once in 2 days.
