@@ -4,6 +4,8 @@
 + Questions to ask to TA:
   + What is the format of ASR's output ? If we submit a hindi speech will ASR generate the output using roman dialect.
     + Depends on training data !!
+  + Can we change our project if we are not able to find appropriate sentences ?
+  + If same language can be selected by multiple teams ?
 + Domain:
   + Voice search: news, music
     + Social impact:
@@ -21,8 +23,14 @@
     + Sentences:
       + Tokens: Crime, complain, police, municipality
       + Word dict: filter words from govt website.
+  + Health Care:
+    + for document purpose , medical history
+    + Social impact:
+      +  it create flexibility to provied efficient health care to rural areas.
+    + Sentences
+      + Token: health , disease, medical related terms.
 + Language:
-  + Hindi
+  + Hindi or English (only one)
 
 
 [2022-01-21]
