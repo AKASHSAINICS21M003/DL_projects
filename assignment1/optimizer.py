@@ -215,5 +215,63 @@ class ADAM(object):
       model.weight[l]-=(self.alpha/np.sqrt(self.v_w_hat[l]+self.epsilon))*self.m_w_hat[l]
       model.bias[l]-=(self.alpha/np.sqrt(self.v_b_hat[l]+self.epsilon))*self.m_b_hat[l]
     self.found=self.found+1
+class NADAM(object):
+  def __init__(self, model, alpha,beta1=0.9,beta2=0.99,epsilon=0.0000001):
+    self.model = model
+    self.alpha = alpha
+    self.beta1=beta1
+    self.beta2=beta2
+    self.epsilon=epsilon
+    self.found=0
+    self.initialize()
+  
+  def initialize(self):
+    self.v_w=[]
+    self.v_b=[]
+    self.m_w=[]
+    self.m_b=[]
+    self.m_w_hat=[]
+    self.m_b_hat=[]
+    self.v_w_hat=[]
+    self.v_b_hat=[]
+    self.mw_cap=[]
+    self.mb_cap=[]
+    num_layers = len(model.weight)
+    for i in range(num_layers):
+      m, n = self.model.weight[i].shape
+      self.v_w.append(np.zeros((m,n)))
+      self.v_b.append(np.zeros(n))
+      self.m_w.append(np.zeros((m,n)))
+      self.m_b.append(np.zeros(n))
+      self.m_w_hat.append(np.zeros((m,n)))
+      self.m_b_hat.append(np.zeros(n))
+      self.v_w_hat.append(np.zeros((m,n)))
+      self.v_b_hat.append(np.zeros(n))
+      self.mw_cap.append(np.zeros((m,n)))
+      self.mb_cap.append(np.zeros(n))
+    
+  def optimize(self, X, y):
+    """
+    X: (batch_size(B), data_size(N))
+    y: (batch_size(B))
+    """
+    model = self.model
+    num_layers = len(model.weight)
+    layer_output = model.forward(X)
+    dw,db = model.backward(X, y, layer_output)
+    for l in range(num_layers):
+      self.v_w[l]=self.beta2*self.v_w[l]+(1-self.beta2)*np.power(dw[l],2)
+      self.v_b[l]=self.beta2*self.v_b[l]+(1-self.beta2)*np.power(db[l],2)
+      self.m_w[l]=self.beta1*self.m_w[l]+(1-self.beta1)*dw[l]
+      self.m_b[l]=self.beta1*self.m_b[l]+(1-self.beta1)*db[l]
+      self.m_w_hat[l]=(1/(1-(self.beta1**(self.found+1))))*self.m_w[l]
+      self.m_b_hat[l]=(1/(1-(self.beta1**(self.found+1))))*self.m_b[l]
+      self.v_w_hat[l]=(1/(1-(self.beta2**(self.found+1))))*self.v_w[l]
+      self.v_b_hat[l]=(1/(1-(self.beta2**(self.found+1))))*self.v_b[l]
+      self.mw_cap[l]=self.beta1*self.m_w_hat[l]+(1-self.beta1)*dw[l]
+      self.mb_cap[l]=self.beta1*self.m_b_hat[l]+(1-self.beta1)*db[l]
+      model.weight[l]-=(self.alpha/np.sqrt(self.v_w_hat[l]+self.epsilon))*self.mw_cap[l]
+      model.bias[l]-=(self.alpha/np.sqrt(self.v_b_hat[l]+self.epsilon))*self.mb_cap[l]
+    self.found=self.found+1
    
   
