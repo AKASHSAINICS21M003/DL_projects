@@ -14,6 +14,5 @@ class ACCURACY():
       if Y_pred[j]==Y_true[j]:
         iter=iter+1
     accuracy=iter/data_size
-    accuracy=accuracy*100
     print(f'accuracy is:{accuracy}')
-    return  Y_pred
+    return  accuracy
