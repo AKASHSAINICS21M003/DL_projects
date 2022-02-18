@@ -6,10 +6,12 @@ import numpy as np
 class BaseActivationFunc(object):
   @staticmethod
   def apply(x):
+    
     raise NotImplementedError("apply() method not implemented")
 
   @staticmethod
   def grad(layer):
+    
     raise NotImplementedError("grad() method not implemented")
 
 
