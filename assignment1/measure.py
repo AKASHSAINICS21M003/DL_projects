@@ -8,5 +8,7 @@ def accuracy(y_estimate, y_true):
     for esti, true in zip(y_estimate, y_true):
       if esti == true:
         cnt = cnt + 1
+        
     accuracy = cnt / len(y_true)
+    
     return accuracy
