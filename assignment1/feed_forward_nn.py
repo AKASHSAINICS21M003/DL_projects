@@ -2,9 +2,9 @@
 
 import numpy as np
 from keras.datasets import fashion_mnist
-from optimizer import SGD
+from optimizer import SGD, MomentumGD, NesterovGD, Rmsprop, Adam, Nadam
 from activation_func import Sigmoid, Relu, Tanh
-from loss_func import CrossEntropy, MinSquaredError
+from loss_func import CrossEntropy, MeanSquaredError
 
 
 np.random.seed(2)
@@ -79,20 +79,20 @@ class FNN(object):
 
 if __name__ == '__main__':
   (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
-  consider = 1000
+  consider = 10000
   X = np.array([x_train[i].flatten() for i in range(consider)]) / 255
   Y = y_train[:consider]
   batch_size, epochs = 16, 10
   act_func, loss_func = Sigmoid(), CrossEntropy()
   model = FNN(784, 10, [50, 20], act_func=act_func, loss_func=loss_func, init='random')
-  sgd = SGD(model, 0.001)
+  opt = Nadam(model, 0.001)
   for ep in range(1, epochs+1):
     ids = np.arange(consider)
     np.random.shuffle(ids)
     start, end = 0, batch_size
     while end > start:
       x, y = X[ids[start:end]], Y[ids[start:end]]
-      sgd.optimize(x, y)
+      opt.optimize(x, y)
       start, end = end, min(consider, end+batch_size)
     err = loss_func.error(X, Y, model)
     print(f'epoch: {ep}, error: {err}')

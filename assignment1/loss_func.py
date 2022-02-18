@@ -22,7 +22,7 @@ class CrossEntropy(BaseLossFunc):
     """
     batch_size = X.shape[0]
     prob = model.forward(X)[-1]
-    err = - np.sum(np.log(prob[np.arange(batch_size), y])) / batch_size
+    err = - np.sum(np.log(prob[np.arange(batch_size), y] + 1e-8)) / batch_size
     for w in model.weight:
       err += model.reg * np.sum(w**2)
     return err
@@ -39,7 +39,7 @@ class CrossEntropy(BaseLossFunc):
     return dl
 
 
-class MinSquaredError(BaseLossFunc):
+class MeanSquaredError(BaseLossFunc):
   @staticmethod
   def error(X, y, model):
     """
@@ -49,7 +49,7 @@ class MinSquaredError(BaseLossFunc):
     prob = model.forward(X)[-1]
     batch_size, output_size = prob.shape
     prob[np.arange(batch_size), y] -= 1
-    err = np.sum(prob ** 2) / (2 * batch_size * output_size)
+    err = np.sum(prob ** 2) / (2 * batch_size)
     for w in model.weight:
       err += model.reg * np.sum(w**2)
     return err
@@ -61,9 +61,7 @@ class MinSquaredError(BaseLossFunc):
     y: (batch_size(B))
     """
     batch_size, output_size = layer.shape
-    normalize = batch_size * output_size
     dl = np.array(layer)
     dl[np.arange(batch_size), y] -= 1
-    ret = dl * layer * (1 - layer) / normalize
+    ret = dl * layer * (1 - layer) / batch_size
     return ret 
-
