@@ -6,10 +6,12 @@ import numpy as np
 class BaseLossFunc(object):
   @staticmethod
   def error(X, y, model):
+    
     raise NotImplementedError("error() method not implemented")
 
   @staticmethod
   def grad(layer, y):
+    
     raise NotImplementedError("grad() method not implemented")
 
 
