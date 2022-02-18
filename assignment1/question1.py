@@ -29,6 +29,7 @@ def plot_sample_images(images, labels, mappings):
       map_cnt += 1
   
   fig = plt.figure(figsize=(10,5))
+    
   for label, img in image_map.items():
     ax = fig.add_subplot(2,5,label+1)
     ax.imshow(img, cmap='gray', vmin=0, vmax=255)
