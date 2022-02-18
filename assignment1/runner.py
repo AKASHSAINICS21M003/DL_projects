@@ -2,7 +2,9 @@
 
 import numpy as np
 from keras.datasets import fashion_mnist
+
 import wandb
+
 from feed_forward_nn import FNN
 from measure import accuracy
 from optimizer import SGD, MomentumGD, NesterovGD, Rmsprop, Adam, Nadam
