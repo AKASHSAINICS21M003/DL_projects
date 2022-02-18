@@ -18,6 +18,7 @@ class FNN(object):
     self.act_func = act_func
     self.loss_func = loss_func
     self.reg = reg
+    
     self.initialize(input_size, hidden_layers_size, output_size, init.lower())
 
   def initialize(self, input_size, hidden_layers_size, output_size, type):
