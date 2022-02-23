@@ -5,6 +5,7 @@ from keras.datasets import fashion_mnist
 from optimizer import SGD, MomentumGD, NesterovGD, Rmsprop, Adam, Nadam
 from activation_func import Sigmoid, Relu, Tanh
 from loss_func import CrossEntropy, MeanSquaredError
+from measure import accuracy
 
 
 np.random.seed(2)
@@ -18,7 +19,6 @@ class FNN(object):
     self.act_func = act_func
     self.loss_func = loss_func
     self.reg = reg
-    
     self.initialize(input_size, hidden_layers_size, output_size, init.lower())
 
   def initialize(self, input_size, hidden_layers_size, output_size, type):
@@ -27,7 +27,7 @@ class FNN(object):
     hidden_layers_size.append(output_size)
     for curr_layer_size in hidden_layers_size:
       std = np.sqrt(prev_layer_size * curr_layer_size) if type == 'xavier' else 1
-      self.weight.append(np.random.rand(prev_layer_size, curr_layer_size)/std)
+      self.weight.append(np.random.randn(prev_layer_size, curr_layer_size)/std)
       self.bias.append(np.zeros(curr_layer_size))
       prev_layer_size = curr_layer_size
 
@@ -80,13 +80,22 @@ class FNN(object):
 
 if __name__ == '__main__':
   (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
-  consider = 10000
+  consider = len(x_train)
   X = np.array([x_train[i].flatten() for i in range(consider)]) / 255
+  X_test = np.array([x.flatten() for x in x_test]) / 255
+
   Y = y_train[:consider]
-  batch_size, epochs = 16, 10
-  act_func, loss_func = Sigmoid(), CrossEntropy()
-  model = FNN(784, 10, [50, 20], act_func=act_func, loss_func=loss_func, init='random')
-  opt = Nadam(model, 0.001)
+  batch_size, epochs = 16, 5
+  act_func, loss_func = Tanh(), CrossEntropy()
+  init, reg = "random", 0.0005
+  hl = [128] * 3
+  model = FNN(784, 10, hl, act_func=act_func, loss_func=loss_func, reg=reg, init=init)
+  opt = Adam(model, 0.0001)
+
+  prob = model.forward(X_test)[-1]
+  yesti = np.argmax(prob, axis=1)
+  print(f"Before training: {accuracy(yesti, y_test)}")
+
   for ep in range(1, epochs+1):
     ids = np.arange(consider)
     np.random.shuffle(ids)
@@ -98,3 +107,7 @@ if __name__ == '__main__':
     err = loss_func.error(X, Y, model)
     print(f'epoch: {ep}, error: {err}')
 
+  prob = model.forward(X_test)[-1]
+  yesti = np.argmax(prob, axis=1)
+  print(f'After training: {accuracy(yesti, y_test)}')
+  
