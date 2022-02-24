@@ -2,9 +2,7 @@
 
 import numpy as np
 from keras.datasets import fashion_mnist
-
 import wandb
-
 from feed_forward_nn import FNN
 from measure import accuracy
 from optimizer import SGD, MomentumGD, NesterovGD, Rmsprop, Adam, Nadam
@@ -61,7 +59,7 @@ class Runner(object):
     return mapper[key]
 
   @staticmethod
-  def train(X_train, y_train, params, do_val, wandb_log, print_after=500):
+  def train(X_train, y_train, params, do_val, wandb_log):
     """
     X_train: (batch_size(B), data_size(N))
     y_train: (batch_size(B))
@@ -120,7 +118,7 @@ class Runner(object):
     # print(f"ValidationLoss: {val_loss}, ValidationAccuracy: {val_acc}")
     if wandb_log:
       wandb.log({
-        "step": step,
+        "epoch": step,
         "TrainingLoss": train_loss,
         "TrainingAccuracy": train_acc,
         "ValidationLoss": val_loss,
@@ -137,11 +135,15 @@ class Runner(object):
     return np.argmax(prob, axis=1)
 
 
+WANDB_PROJECT = "CS6910_ASSIGNMENT_1"
+WANDB_ENTITY  = "cs21m003_cs21d406"
+
+
 def run_wandb():
-  wandb.init()
+  wandb.init(project=WANDB_PROJECT, entity=WANDB_ENTITY)
   config = wandb.config
   loss_name = "ce" if config.loss_func == "cross_entropy" else "mse"
-  wandb.run.name=f"e_{config.epochs}_bs_{config.batch_size}_hl_{config.hidden_layers}_hn_{config.hidden_nodes}_init_{config.weight_init}_ac_{config.act_func}_ls_{loss_name}_opt_{config.optimizer}"
+  wandb.run.name=f"e_{config.epochs}_bs_{config.batch_size}_hl_{config.hidden_layers}_hn_{config.hidden_nodes}_init_{config.weight_init}_ac_{config.act_func}_reg_{config.reg}_ls_{loss_name}_opt_{config.optimizer}_lr_{config.learning_rate}_sc_{config.search_type}"
   hidden_layers_size = [config.hidden_nodes] * config.hidden_layers
   runner = Runner()
   params = {
@@ -155,13 +157,16 @@ def run_wandb():
     "init"              : config.weight_init,
     "loss_func"         : runner.get_loss_function(config.loss_func),
   }
-  runner.train(runner.X, runner.y, params, do_val=True, wandb_log=True)
+  model = runner.train(runner.X, runner.y, params, do_val=True, wandb_log=True)
+  estimate_y_test = runner.predict(runner.X_test, model)
+  test_acc = accuracy(estimate_y_test, runner.y_test)
+  wandb.log({"TestAccuracy": test_acc})
 
 
-def do_hyperparameter_search_using_wandb():
+def do_hyperparameter_search_using_wandb(search_type, loss_func, cnt=5):
   sweep_config = {
-    "name": "Bayesian Sweep",
-    "method": "bayes",
+    "name": f"{search_type} sweep",
+    "method": search_type,
     "metric":{
       "name": "ValidationAccuracy",
       "goal": "maximize"
@@ -174,16 +179,18 @@ def do_hyperparameter_search_using_wandb():
       "reg": {"values": [0, 0.0005, 0.5]},
       "weight_init": {"values": ['random', 'xavier']} , 
       "act_func": {"values": ["sigmoid", "tanh", "relu"]}, 
-      "loss_func": {"values": ["cross_entropy"]}, 
+      "loss_func": {"values": [loss_func]}, 
       "learning_rate": {"values": [1e-3, 1e-4]},   
-      "optimizer": {"values": ["sgd", "momentum_gd", "nesterov_gd", "rmsprop", "adam", "nadam"]}, 
+      "optimizer": {"values": ["sgd", "momentum_gd", "nesterov_gd", "rmsprop", "adam", "nadam"]},
+      "search_type": {"values": [search_type]}
     }
   }
-  sweep_id = wandb.sweep(sweep_config, project = "cs6910")
-  wandb.agent(sweep_id, function=run_wandb, count=15)
+  sweep_id = wandb.sweep(sweep_config, project = WANDB_PROJECT, entity=WANDB_ENTITY)
+  wandb.agent(sweep_id, function=run_wandb, count=cnt)
 
 
 if __name__ == '__main__':
-  do_hyperparameter_search_using_wandb()
+  do_hyperparameter_search_using_wandb("bayes", "cross_entropy", 40)
+  do_hyperparameter_search_using_wandb("random", "cross_entropy", 40)
 
-
+  do_hyperparameter_search_using_wandb("bayes", "mse", 40)
