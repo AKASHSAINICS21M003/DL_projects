@@ -6,12 +6,10 @@ import numpy as np
 class BaseLossFunc(object):
   @staticmethod
   def error(X, y, model):
-    
     raise NotImplementedError("error() method not implemented")
 
   @staticmethod
   def grad(layer, y):
-    
     raise NotImplementedError("grad() method not implemented")
 
 
@@ -26,7 +24,7 @@ class CrossEntropy(BaseLossFunc):
     prob = model.forward(X)[-1]
     err = - np.sum(np.log(prob[np.arange(batch_size), y] + 1e-8)) / batch_size
     for w in model.weight:
-      err += model.reg * np.sum(w**2)
+      err += 0.5 * model.reg * np.sum(w**2)
     return err
 
   @staticmethod
@@ -53,7 +51,7 @@ class MeanSquaredError(BaseLossFunc):
     prob[np.arange(batch_size), y] -= 1
     err = np.sum(prob ** 2) / (2 * batch_size)
     for w in model.weight:
-      err += model.reg * np.sum(w**2)
+      err += 0.5 * model.reg * np.sum(w**2)
     return err
 
   @staticmethod
