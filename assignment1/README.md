@@ -13,6 +13,7 @@
 + Question codes:
   + question1.py
   + question4.py
+  + question7.py
   + question8.py
   + question10.py
 
@@ -41,6 +42,11 @@ python question1.py
 ### Run question4
 ```bash
 python question4.py
+```
+
+### Run question7
+```bash
+python question7.py
 ```
 
 ### Run question8
