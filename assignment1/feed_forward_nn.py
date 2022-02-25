@@ -1,12 +1,6 @@
 #!/usr/bin/env python
 
 import numpy as np
-from keras.datasets import fashion_mnist
-from optimizer import SGD, MomentumGD, NesterovGD, Rmsprop, Adam, Nadam
-from activation_func import Sigmoid, Relu, Tanh
-from loss_func import CrossEntropy, MeanSquaredError
-from measure import accuracy
-from sklearn.model_selection import train_test_split
 
 
 class FNN(object):
