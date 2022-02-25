@@ -1,5 +1,21 @@
 ## Assignment1
 
+### Description
++ Model codes are in
+  + feed_forward_nn.py
+  + activation_func.py
+  + loss_func.py
+  + measure.py
+  + optimizer.py
++ Helper codes :
+  + run_single_config.py
+  + run_wandb.py
++ Question codes:
+  + question1.py
+  + question4.py
+  + question8.py
+  + question10.py
+
 ### Set up
 + Install wandb and set up login
 + Install following pacakges
