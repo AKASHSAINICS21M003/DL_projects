@@ -1,5 +1,5 @@
-
 #!/usr/env/bin python
+
 import wandb
 import activation_func
 import loss_func
