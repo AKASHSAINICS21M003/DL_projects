@@ -2,8 +2,8 @@
 
 from keras.datasets import fashion_mnist
 import matplotlib.pyplot as plt
-
-
+import wandb
+run = wandb.init(project='CS6910_ASSIGNMENT_1',entity="cs21m003_cs21d406")
 MAPPINGS = {
     0: "T-shirt/top",
     1: "Trouser",
@@ -34,7 +34,7 @@ def plot_sample_images(images, labels, mappings):
     ax = fig.add_subplot(2,5,label+1)
     ax.imshow(img, cmap='gray', vmin=0, vmax=255)
     ax.set_title(mappings[label])
-
+    wandb.log({"sample": [wandb.Image(img,caption=mappings[label])]})
 
 if __name__ == '__main__':
   (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
