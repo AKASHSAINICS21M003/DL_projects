@@ -3,7 +3,12 @@
 import numpy as np
 
 
-class SGD(object):
+class BaseOptimizer(object):
+  def optimizer(self, X, y):
+    raise NotImplementedError
+
+
+class SGD(BaseOptimizer):
   def __init__(self, model, alpha):
     self.model = model
     self.alpha = alpha
@@ -22,7 +27,7 @@ class SGD(object):
       model.bias[l] -= self.alpha * db[l]
 
 
-class MomentumGD(object):
+class MomentumGD(BaseOptimizer):
   def __init__(self, model, alpha, gamma=0.9):
     self.model = model
     self.alpha = alpha
@@ -54,7 +59,7 @@ class MomentumGD(object):
       model.bias[l] -= self.v_b[l]
 
 
-class NesterovGD(object):
+class NesterovGD(BaseOptimizer):
   def __init__(self, model, alpha, gamma=0.9):
     self.model = model
     self.alpha = alpha
@@ -91,7 +96,7 @@ class NesterovGD(object):
       model.bias[l] -= self.alpha*db[l]
 
 
-class Adagrad(object):
+class Adagrad(BaseOptimizer):
   def __init__(self, model, alpha, epsilon=0.000001):
     self.model = model
     self.alpha = alpha
@@ -123,7 +128,7 @@ class Adagrad(object):
       model.bias[l] -= (self.alpha/np.sqrt(self.v_b[l]+self.epsilon))*db[l]
 
 
-class Rmsprop(object):
+class Rmsprop(BaseOptimizer):
   def __init__(self, model, alpha, beta=0.9, epsilon=0.000001):
     self.model = model
     self.alpha = alpha
@@ -156,7 +161,7 @@ class Rmsprop(object):
       model.bias[l]-=(self.alpha/np.sqrt(self.v_b[l]+self.epsilon))*db[l]
 
 
-class Adam(object):
+class Adam(BaseOptimizer):
   def __init__(self, model, alpha, beta1=0.9, beta2=0.99, epsilon=0.0000001):
     self.model = model
     self.alpha = alpha
@@ -202,7 +207,7 @@ class Adam(object):
     self.found=self.found+1
 
 
-class Nadam(object):
+class Nadam(BaseOptimizer):
   def __init__(self, model, alpha, beta1=0.9, beta2=0.99, epsilon=0.0000001):
     self.model = model
     self.alpha = alpha
@@ -217,12 +222,6 @@ class Nadam(object):
     self.v_b=[]
     self.m_w=[]
     self.m_b=[]
-    self.m_w_hat=[]
-    self.m_b_hat=[]
-    self.v_w_hat=[]
-    self.v_b_hat=[]
-    self.mw_cap=[]
-    self.mb_cap=[]
     num_layers = len(self.model.weight)
     for i in range(num_layers):
       m, n = self.model.weight[i].shape
