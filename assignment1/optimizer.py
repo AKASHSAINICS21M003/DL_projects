@@ -8,7 +8,6 @@ class BaseOptimizer(object):
     raise NotImplementedError
 
 
-
 class SGD(BaseOptimizer):
   def __init__(self, model, alpha):
     self.model = model
