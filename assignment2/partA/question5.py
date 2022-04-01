@@ -3,7 +3,8 @@
 import sys
 import tensorflow as tf
 from tf.keras.models import load_model, Model
-
+import wandb
+import matplotlib.pyplot as plt
 
 
 np.random.seed(0)
@@ -35,7 +36,8 @@ def main(model_path, image_path):
   model = load_model(model_path)
   conv_layer_5 = 16
   output_size = model.layers[conv_layer_5].output.shape[1:]
-  
+  wandb.init(project="guided_backprop", entity="cs21m003_cs21d406")
+  plt.figure(figsize=(30,30))
   for pt in range(10):
     idx = np.random.randint(0, output_shape[0])
     idy = np.random.randint(0, output_shape[1])
@@ -50,10 +52,11 @@ def main(model_path, image_path):
     grads = tape.gradient(result, input_img)[0]
 
     normalized_grads = norm_flat_image(grads)
-    plt.figure(figsize=(15,45))
     plt.subplot(10, 1, pt+1)
     plt.imshow(normalized_grads, vmin=0.3, vmax=0.7, cmap="gray")
     plt.axis("off")
+  wandb.log({"neurons":plt})  
+   
 
 
 if __name__ == '__main__':
