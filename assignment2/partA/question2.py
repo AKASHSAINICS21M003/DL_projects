@@ -62,7 +62,7 @@ def do_hyperparameter_search_using_wandb():
       "lr": {"values": [1e-3, 1e-4]}, 
       "augmentation": {"values": [True, False]} , 
       "batch_norm": {"values": [True, False]},
-      "drop_out": {"values": [0.2, 0.3, 0.4]},
+      "drop_out": {"values": [0.2, 0.3, 0.4,0.5]},
       "padding": {"values": ['same', 'valid']},
       "dense_size": {"values": [32,64, 128]},
       "filter_org": {"values": [1, 2, 0.5]},
