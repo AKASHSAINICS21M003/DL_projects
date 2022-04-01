@@ -27,7 +27,7 @@ def run_wandb():
     config = wandb.config
     base_model = MODEL_MAP[config.models]
     wandb.run.name = f"model_{config.models}_e_{config.epochs}_bs_{config.batch_size}_rate_{config.lr}_aug_{config.augmentation}_BN_{config.batch_norm}_drp_{config.drop_out}_dense_{config.dense_size}"
-    train_data, val_data, test_data = get_data(DATA_PATH, TARGET_SIZE, config.augmentation)
+    train_data, val_data, test_data = get_data(DATA_PATH, IMAGE_SIZE[:2], config.augmentation)
     model_1 = base_model(IMAGE_SIZE, TARGET_SIZE, config.drop_out, config.batch_norm,config.dense_size)
     model_1.model.compile(optimizer=Adam(config.learning_rate),  # Optimizer
                           loss="categorical_crossentropy",
