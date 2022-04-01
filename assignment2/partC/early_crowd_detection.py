@@ -16,6 +16,7 @@ import glob
 import cv2
 
 
+
 _BATCH_NORM_DECAY = 0.9
 _BATCH_NORM_EPSILON = 1e-05
 _LEAKY_RELU = 0.1
