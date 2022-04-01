@@ -24,7 +24,7 @@ _ANCHORS = [(10, 13), (16, 30), (33, 23),
             (116, 90), (156, 198), (373, 326)]
 _MODEL_SIZE = (416, 416)
 
-LESS_CROWDED_1 = "./video/less_crowded.mp4"
+LESS_CROWDED_1 = "./video/less_crowded_1.mp4"
 LESS_CROWDED_2 = "./video/less_crowded_2.mp4"
 BUSY_CROWDED = "./video/busy_crowded.mp4"
 FILE_PATH = "./files/"
