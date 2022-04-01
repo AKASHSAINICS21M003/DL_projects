@@ -4,6 +4,7 @@
 #### tensorflow version: 2.6.0
 
 import tensorflow as tf
+
 from tensorflow import keras
 from keras.models import Sequential, Model
 from tensorflow.keras import  models, optimizers, layers, activations
