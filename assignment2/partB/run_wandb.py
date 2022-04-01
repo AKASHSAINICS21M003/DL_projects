@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import wandb
+
 from wandb.keras import WandbCallback
 from models import inc_v2, inc_v3, resnet, xception
 import numpy as np
