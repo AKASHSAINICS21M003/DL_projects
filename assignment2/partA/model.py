@@ -60,9 +60,7 @@ class CNN(object):
   def predict(self, image):
     return self.model.predict(image)
 
-  def __call__(self, *args, **kwargs):
-    return self.model(*args, **kwargs)
-
-
+  def save(self, path):
+    self.model.save(path)
 
 
