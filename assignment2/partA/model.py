@@ -34,6 +34,7 @@ class CNN(object):
                      kernel_size=config.kernel_size, 
                      padding=config.padding,
                      kernel_initializer="he_uniform"))
+      
       model.add(Activation(config.activation_func))
       if config.batch_norm:
         model.add(BatchNormalization())
