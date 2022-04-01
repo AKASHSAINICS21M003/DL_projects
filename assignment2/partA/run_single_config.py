@@ -5,6 +5,7 @@ import numpy as np
 import yaml
 from model import CNN
 from utils import get_data
+
 from config import Config
 
 
