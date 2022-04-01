@@ -37,6 +37,8 @@ def main(model_path, image_path):
   conv_layer_5 = 16
   output_size = model.layers[conv_layer_5].output.shape[1:]
   wandb.init(project="guided_backprop", entity="cs21m003_cs21d406")
+  plt.imshow(input_img)
+  wandb.log({"true_image":plt})
   plt.figure(figsize=(30,30))
   for pt in range(10):
     idx = np.random.randint(0, output_shape[0])
