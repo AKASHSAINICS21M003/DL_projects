@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 from os.path import join
+
 from tf.keras.preprocessing.image import ImageDataGenerator
 
 
