@@ -4,6 +4,7 @@ from os.path import join
 from tf.keras.preprocessing.image import ImageDataGenerator
 
 
+
 def get_data(path, target_size, augmentation=True, seed=0):
   train_path = join(path,"train")
   test_path = join(path,"val")
