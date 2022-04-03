@@ -3,29 +3,17 @@
 ## Libraries: 
 #### tensorflow version: 2.6.0
 
-import tensorflow as tf
-
-from tensorflow import keras
-from keras.models import Sequential, Model
-from tensorflow.keras import  models, optimizers, layers, activations
-from keras.preprocessing.image import ImageDataGenerator
-from keras.callbacks import History
+import os
 import numpy as np
 import matplotlib.pyplot as plt
-from PIL import Image
-import os
+import tensorflow as tf
+from tensorflow import keras
+from keras.models import Sequential, Model
 from keras.applications.inception_v3 import InceptionV3
 from keras.applications.inception_resnet_v2 import InceptionResNetV2
 from keras.applications.xception import Xception
-from tensorflow.keras.applications.resnet50 import ResNet50
-from tensorflow.keras.models import Sequential, Model
-from tensorflow.keras.layers import Dense 
-from tensorflow.keras.layers import Flatten
-from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.layers import MaxPooling2D ,GlobalAveragePooling2D
-from tensorflow.keras.layers import Activation
-from tensorflow.keras.layers import Dropout 
-from tensorflow.keras.layers import BatchNormalization
+from keras.applications.resnet50 import ResNet50
+from keras.layers import Dense, Flatten, Activation, Dropout, BatchNormalization 
 
 
 class inc_v2(object):
@@ -86,6 +74,7 @@ class inc_v3(object):
         self.model.add(Dropout(drop_out))
         self.model.add(Dense(output_size))
         self.model.add(Activation("softmax"))
+
 
 class xception(object):
     """
