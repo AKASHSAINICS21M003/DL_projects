@@ -1,3 +1,5 @@
+# Best Model configuration
+
 epochs: 10
 
 # CNN configuration
