@@ -9,7 +9,7 @@ import wandb
 from wandb.keras import WandbCallback
 
 
-DATA_PATH = abspath(realpath(__file__) + "/../../data")
+DATA_PATH = abspath(realpath(__file__) + "/../data")
 
 # This input size does not refer to the size of the actual image 
 # but rather the desired input size that we want to feed to the network
