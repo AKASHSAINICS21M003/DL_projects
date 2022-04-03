@@ -32,10 +32,10 @@ class inc_v2(object):
             input_shape=input_size,
         )
         self.model_b.trainable=False
-        input = keras.Input(shape=input_size)
-        x = self.model_b(input, training=False)
+        input = keras.Input(shape=input_size) # input to the model
+        x = self.model_b(input, training=False) # x is the output from the model_b
         self.model=Sequential()
-        self.model.add(Model(input, x))
+        self.model.add(Model(input, x)) 
         self.model.add(Flatten())
         self.model.add(Dense(dense_size))
         self.model.add(Activation('selu'))
@@ -62,8 +62,8 @@ class inc_v3(object):
             input_shape=input_size,
         )
         self.model_b.trainable=False
-        input = keras.Input(shape=input_size)
-        x = self.model_b(input, training=False)
+        input = keras.Input(shape=input_size) # input to the model
+        x = self.model_b(input, training=False) # x is the output from the model_b
         self.model=Sequential()
         self.model.add(Model(input, x))
         self.model.add(Flatten())
@@ -91,8 +91,8 @@ class xception(object):
             weights="imagenet",
             input_shape=input_size)
         self.model_b.trainable=False
-        input = keras.Input(shape=input_size)
-        x = self.model_b(input, training=False)
+        input = keras.Input(shape=input_size) # input to the model
+        x = self.model_b(input, training=False) # x is the output from the model_b
         self.model=Sequential()
         self.model.add(Model(input, x))
         self.model.add(Flatten())
@@ -120,8 +120,8 @@ class resnet(object):
             weights="imagenet",
             input_shape=input_size)
         self.model_b.trainable=False
-        input = keras.Input(shape=input_size)
-        x = self.model_b(input, training=False)
+        input = keras.Input(shape=input_size) # input to the model
+        x = self.model_b(input, training=False) # x is the output from the model_b
         self.model=Sequential()
         self.model.add(Model(input, x))
         self.model.add(Flatten())
