@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from tf.keras.models import load_model, Model
 
 
-DATA_PATH = os.path.abspath(os.path.realpath(__file__) + "/../../data")
+DATA_PATH = os.path.abspath(os.path.realpath(__file__) + "/../data")
 
 # This input size does not refer to the size of the actual image 
 # but rather the desired input size that we want to feed to the network
