@@ -10,6 +10,7 @@
 
 import os
 import tensorflow as tf
+
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 from IPython.display import display
