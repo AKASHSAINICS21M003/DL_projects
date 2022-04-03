@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 import wandb
-
+import os
 import numpy as np
 from wandb.keras import WandbCallback
 from models import inc_v2, inc_v3, resnet, xception
@@ -9,8 +9,9 @@ from tensorflow.keras.optimizers import Adam
 from utils import get_data
 
 
-DATA_PATH = "../data/in.."
+DATA_PATH = os.path.abspath(os.path.realpath(__file__) + "/../data")
 
+# desired input size
 IMAGE_SIZE = (256, 256, 3)
 
 TARGET_SIZE = 10
