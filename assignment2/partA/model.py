@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 from tensorflow.keras.models import Sequential
+
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Activation, Dropout, BatchNormalization
 from tensorflow.keras.optimizers import Adam
 
