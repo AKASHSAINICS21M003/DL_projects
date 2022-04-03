@@ -1,0 +1,22 @@
+# Best Model configuration
+
+epochs: 10
+
+# CNN configuration
+batch_size: 64
+kernel_size: [4, 4]
+num_filters: 32
+activation_func: "selu"
+lr: 0.001
+augmentation: False
+batch_norm: True
+drop_out: 0.4
+padding: "same"
+dense_size: 128
+filter_org: 1
+
+# input image size
+input_size: (256, 256, 3)
+
+# number of classes
+output_size: 10

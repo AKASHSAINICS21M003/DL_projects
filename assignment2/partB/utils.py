@@ -4,10 +4,10 @@ from os.path import join
 from tf.keras.preprocessing.image import ImageDataGenerator
 
 
-
 def get_data(path, target_img_size, augmentation=True, seed=0):
-  train_path = join(path,"train")
-  test_path = join(path,"val")
+  train_path, test_path = join(path,"train"), join(path,"val")
+  if len(target_img_size) == 3:
+    target_img_size = target_img_size[:2] # assuming last value is channel_size
   if augmentation:
     train_generator = ImageDataGenerator(rescale=1./255,
                                          rotation_range=90,

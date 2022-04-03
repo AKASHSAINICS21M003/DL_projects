@@ -7,6 +7,9 @@ from tensorflow.keras.optimizers import Adam
 
 class CNN(object):
   def __init__(self, config):
+    """
+    config: can be a wandb config class or custom Config class
+    """
     self.config = config
     self.initialize()
 
@@ -19,22 +22,24 @@ class CNN(object):
 
   def get_model(self, config):
     """
-    As defined in assignment 2
+    get CNN model as defined in assignment 2
     """
+    num_of_conv_layer = 5 # defined in assignment 2
     model = Sequential()
-    model.add(Conv2D(filters=config.num_filters,
-                          kernel_size=config.kernel_size,
-                          input_shape=config.input_size,
-                          padding=config.padding,
-                          kernel_initializer="he_uniform",
-                          data_format="channels_last"))
-    for layer in range(1, config.num_conv_layers):
-      num_filters = config.num_filters * (config.filter_org**layer)
-      model.add(Conv2D(filters=num_filters,
-                     kernel_size=config.kernel_size, 
-                     padding=config.padding,
-                     kernel_initializer="he_uniform"))
-      
+    for layer in range(num_conv_layers):
+      if layer == 0:
+        model.add(Conv2D(filters=config.num_filters,
+                         kernel_size=config.kernel_size,
+                         input_shape=config.input_size,
+                         padding=config.padding,
+                         kernel_initializer="he_uniform",
+                         data_format="channels_last"))
+      else:
+        num_filters = config.num_filters * (config.filter_org**layer)
+        model.add(Conv2D(filters=num_filters,
+                         kernel_size=config.kernel_size, 
+                         padding=config.padding,
+                         kernel_initializer="he_uniform"))
       model.add(Activation(config.activation_func))
       if config.batch_norm:
         model.add(BatchNormalization())
