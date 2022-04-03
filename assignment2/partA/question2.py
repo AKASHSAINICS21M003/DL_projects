@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import numpy as np
+
 from utils import get_data
 from os.path import join, abspath, realpath
 from os import listdir
