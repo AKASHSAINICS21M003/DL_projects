@@ -8,6 +8,7 @@
 # Code from: https://pylessons.com/YOLOv3-code-explanation
 
 
+import os
 import tensorflow as tf
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -25,10 +26,10 @@ _ANCHORS = [(10, 13), (16, 30), (33, 23),
             (116, 90), (156, 198), (373, 326)]
 _MODEL_SIZE = (416, 416)
 
-LESS_CROWDED_1 = "./video/less_crowded_1.mp4"
-LESS_CROWDED_2 = "./video/less_crowded_2.mp4"
-BUSY_CROWDED = "./video/busy_crowded.mp4"
-FILE_PATH = "./files/"
+LESS_CROWDED_1 = "./store/video/less_crowded_1.mp4"
+LESS_CROWDED_2 = "./store/video/less_crowded_2.mp4"
+BUSY_CROWDED = "./store/video/busy_crowded.mp4"
+FILE_PATH = "./store/files/"
 
 
 ## YOLO V3
@@ -635,7 +636,7 @@ assign_ops = load_weights(model_vars, FILE_PATH+'yolov3.weights')
 
 person_key = 0
 
-video_file = "./save/busy1.avi"
+video_file = "./store/save/busy1.avi"
 fps = 20
 out = cv2.VideoWriter(video_file, cv2.VideoWriter_fourcc(*'PIM1'), fps, _MODEL_SIZE)
 
