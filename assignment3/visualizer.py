@@ -4,6 +4,7 @@ import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+
 from matplotlib.font_manager import FontProperties
 from IPython.display import HTML as html_print
 from IPython.display import display
