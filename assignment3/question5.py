@@ -6,6 +6,7 @@ import numpy as np
 import tensorflow as tf
 from model_runner import Runner
 from dataset import Dataset
+
 from visualizer import Visualizer
 
 
