@@ -1,0 +1,11 @@
+# Best Model hyper-parameters
+
+epochs: 10
+inp_embed_size: 128
+latent_dim: 256
+num_encoder_layers: 2
+num_decoder_layers: 2
+dropout: 0.4
+batch_size: 32
+attention: False
+rnn_type: "gru"
