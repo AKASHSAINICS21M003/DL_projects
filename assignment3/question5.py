@@ -26,14 +26,13 @@ def read_config(config_path):
   return params
 
 
-def train(dataset, params): # with attention
-  dataset = Dataset(DATA_PATH)
+def train(dataset, params): # with attention 
+  assert params['use_attention'], "To run this train method you need attention layer"
+
   train_encoder_input, train_decoder_target, val_encoder_input, val_decoder_target = dataset.get_training_data()
   encoder_vocab_size, decoder_vocab_size = dataset.vocab_size
   params['encoder_vocab_size'] = encoder_vocab_size
   params['decoder_vocab_size'] = decoder_vocab_size
-  params['use_attention'] = True
-
   runner = Runner(params, RNN_MAP[params['rnn_type']], dataset.encoder_tokenizer, dataset.decoder_tokenizer)
   train_loss, val_acc = run.train(train_encoder_input, train_decoder_target,
                                    val_encoder_input, val_decoder_target, epochs=params['epochs'])
@@ -48,6 +47,9 @@ def run_on_test_data(dataset, runner):
 
 
 def heat_map(dataset, runner):
+  """
+  Creates a heatmap
+  """
   test_encoder_input, test_decoder_target = dataset.get_testing_data()
   max_target_len = test_decoder_target.shape[1]
   viz = Visualizer(runner)

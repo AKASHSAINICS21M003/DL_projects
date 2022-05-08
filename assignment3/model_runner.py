@@ -6,6 +6,9 @@ from model import Encoder, Decoder
 
 
 class Runner(object):
+  """
+  It contains all the necessary methods for constructing to training seq2seq model.
+  """
   def __init__(self, params, rnn_class, encoder_tokenizer, decoder_tokenizer, encoder=None, decoder=None):
     self.params = params
     self.encoder_tokenizer = encoder_tokenizer
@@ -17,6 +20,9 @@ class Runner(object):
 
   @staticmethod
   def index_word(tokenizer, seq):
+    """
+    It takes sequence of index(integer) and converts it into corresponding word
+    """
     result = ''
     for s in seq:
       if s == 0: # generally we should not encounter this id, but it we do then it is just a unrecognized character
@@ -29,6 +35,9 @@ class Runner(object):
 
   @staticmethod
   def word_index(tokenizer, seq, max_length):
+    """
+    It takes word and converts it into corresponding sequence of integer
+    """
     result = []
     for s in seq:
       result.append(tokenizer.word_index[s])
@@ -44,6 +53,10 @@ class Runner(object):
 
   @tf.function
   def _train_step(self, encoder_input, decoder_target):
+    """
+    Takes a batch of encoder_input, decoder_target data and trains the model using 
+    teacher forcing method
+    """
     loss = 0
     encoder_hidden = self.encoder.initialize_hidden_state(batch=encoder_input.shape[0])
     with tf.GradientTape() as tape:
@@ -61,6 +74,9 @@ class Runner(object):
     return batch_loss
 
   def train(self, encoder_input, decoder_target, val_encoder_input, val_decoder_target, epochs=5):
+    """
+    Call this method to train seq2seq model
+    """
     num_train_data = encoder_input.shape[0]
     indx = np.arange(num_train_data)
     np.random.shuffle(indx)
@@ -84,6 +100,9 @@ class Runner(object):
     return train_loss, valid_accuracy
 
   def translate(self, encoder_input, max_target_len):
+    """
+    It takes encoder_input and converts it into its corresponding transliteration
+    """
     batch = encoder_input.shape[0]
     encoder_hidden = self.encoder.initialize_hidden_state(batch)
     encoder_output, decoder_hidden = self.encoder(encoder_input, encoder_hidden)
@@ -101,6 +120,9 @@ class Runner(object):
     return result, attention_weights
 
   def validation_step(self, encoder_input, decoder_target):
+    """
+    Calculates word level validation accuracy
+    """
     max_target_len = decoder_target.shape[1]
     results, _ = self.translate(encoder_input, max_target_len)
     val_accuracy = 0
@@ -112,6 +134,9 @@ class Runner(object):
     return val_accuracy
   
   def test_and_save(self, encoder_input, decoder_target, save_path):
+    """
+    Calculates test accuracy at word level and saves the transliteration in a file
+    """
     results, _ = self.translate(encoder_input, decoder_target.shape[1])
     test_accuracy = 0
     with open(save_path, 'w') as fp:
@@ -127,6 +152,10 @@ class Runner(object):
     print(f"{attention_message} Test Accuracy: {test_accuracy}")
 
   def get_embedding_gradient(self, input_word, max_target_len):
+    """
+    Calculates the gradient with respect to the input embedding.
+    It is used in visualizing connectivity in question 6.
+    """
     prediction, gradients = [], []
     encoder_hidden = self.encoder.initialize_hidden_state(1)
     inp_embed = self.encoder.embed(input_word)

@@ -23,6 +23,9 @@ EPOCHS = 10
 
 
 class WandbRunner(object):
+  """
+  Contains methods for calling wandb
+  """
   def __init__(self):
     dataset = Dataset(DATA_PATH)
     self.train_encoder_input, self.train_decoder_target, self.val_encoder_input, self.val_decoder_target = dataset.get_training_data()
@@ -69,7 +72,7 @@ class WandbRunner(object):
             "num_decoder_layers": {"values": [1, 2, 3]},
             "dropout": {"values": [0.2, 0.3, 0.4]},
             "batch_size": {"values": [32, 64]},
-            "attention": {"values": [False]}, 
+            "attention": {"values": [False]},  # can be set to true/false 
             "rnn_type": {"values": ["rnn", "lstm", "gru"]},
             "epochs": {"values": [EPOCHS]}
         }

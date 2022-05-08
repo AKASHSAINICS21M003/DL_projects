@@ -10,6 +10,10 @@ tf.random.set_seed(seed)
 
 
 class BaseModel(tf.keras.Model):
+  """
+  A super class for both encoder and decoder model.
+  It contains all the necessary methods for creating Encoder and Decoder object
+  """
   def __init__(self, params, rnn_class):
     super(BaseModel, self).__init__()
     self.set_attributes(params)
@@ -19,6 +23,9 @@ class BaseModel(tf.keras.Model):
       setattr(self, k, v)
 
   def stacked_layers(self, rnn_class, num_layers):
+    """
+    It creates a stacked layer of rnn  
+    """
     first_rnn = rnn_class(self.latent_dim, return_state=True, return_sequences=True)
     if num_layers <= 1:
       return first_rnn, None
@@ -82,6 +89,9 @@ class Decoder(BaseModel):
 
 
 class Attention(tf.keras.layers.Layer):
+  """
+  It implements Bahdanau Attention algorithm (softmax(V*(W1^T*s + W2*h)))
+  """
   def __init__(self, latent_dim):
     super(Attention, self).__init__()
     self.W1 = tf.keras.layers.Dense(latent_dim)

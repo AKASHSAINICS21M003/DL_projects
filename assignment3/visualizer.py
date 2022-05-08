@@ -41,6 +41,9 @@ class Visualizer(object):
     return z
 
   def viz_connectivity(self, encoder_input, max_target_len=21):
+    """
+    Visualizes connectivity in question 6
+    """
     runner = self.runner
     for inp in encoder_input:
       pred, grads = runner.get_embedding_gradient(tf.expand_dims(inp, 0), max_target_len)
@@ -58,6 +61,9 @@ class Visualizer(object):
           self.print_color(word_color)
 
   def viz_attention(self, encoder_input, max_target_len):
+    """
+    Visualizes attention weights in question 4c
+    """
     runner = self.runner
     font_path = "/usr/share/fonts/truetype/lohit-devanagari/Lohit-Devanagari.ttf"
     results, attention_weights = runner.translate(encoder_input, max_target_len)

@@ -26,7 +26,9 @@ def read_config(config_path):
   return params
 
 
-def train(dataset, params)
+def train(dataset, params): # without attention
+  assert not params['use_attention'], "To run this train method you need to donot need attention layer"
+
   train_encoder_input, train_decoder_target, val_encoder_input, val_decoder_target = dataset.get_training_data()
   encoder_vocab_size, decoder_vocab_size = dataset.vocab_size
   params['encoder_vocab_size'] = encoder_vocab_size

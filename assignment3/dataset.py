@@ -5,6 +5,10 @@ import tensorflow as tf
 
 
 class Dataset(object):
+  """
+  Class for loading and converting the dataset so that it can
+  be used to train or seq2seq transliteration model
+  """
   def __init__(self, data_path):
     self.train_path = os.path.join(data_path, 'hi.translit.sampled.train.tsv')
     self.validation_path = os.path.join(data_path, 'hi.translit.sampled.dev.tsv')
@@ -59,6 +63,9 @@ class Dataset(object):
     return encoder_input, decoder_target
 
   def get_training_data(self):
+    """
+    returns training data
+    """
     try:
       self.load_train_data = True
       train_encoder_words, train_decoder_words = self._read_file(self.train_path)
@@ -71,6 +78,9 @@ class Dataset(object):
     return train_encoder_input, train_decoder_target, val_encoder_input, val_decoder_target
 
   def get_testing_data(self):
+    """
+    returns testing data
+    """
     test_encoder_words, test_decoder_words = self._read_file(self.test_path)
     test_encoder_input, test_decoder_target = self._get_dataset(test_encoder_words, test_decoder_words)
     return test_encoder_input, test_decoder_target
