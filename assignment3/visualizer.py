@@ -44,7 +44,7 @@ class Visualizer(object):
   def viz_connectivity(self, encoder_input, max_target_len=21):
     runner = self.runner
     for inp in encoder_input:
-      pred, grads = self.get_embedding_gradient(tf.expand_dims(inp, 0), max_target_len)
+      pred, grads = runner.get_embedding_gradient(tf.expand_dims(inp, 0), max_target_len)
       orig_word = runner.index_word(runner.encoder_tokenizer, inp)[:-1]
       pred_word = runner.index_word(runner.decoder_tokenizer, pred)[:-1]
       print(f"\nVisualizing tranliteration of word {orig_word}")
