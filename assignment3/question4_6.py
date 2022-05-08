@@ -4,6 +4,7 @@ import yaml
 import numpy as np
 import tensorflow as tf
 from model_runner import Runner
+
 from visualizer import Visualizer
 from dataset import Dataset
 

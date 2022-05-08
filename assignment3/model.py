@@ -5,6 +5,7 @@ import tensorflow as tf
 
 
 seed = 0
+
 np.random.seed(seed)
 tf.random.set_seed(seed)
 
