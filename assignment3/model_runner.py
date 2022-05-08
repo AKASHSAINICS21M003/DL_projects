@@ -65,7 +65,7 @@ class Runner(object):
       decoder_hidden = encoder_hidden
       decoder_input = tf.expand_dims(decoder_target[:, 0], 1)
       for t in range(1, decoder_target.shape[1]):  # unfolding in time
-        pred_prob, decoder_hidden, _ = self.decoder(decoder_input, decoder_hidden, encoder_output)
+        pred_prob, decoder_hidden, _, _ = self.decoder(decoder_input, decoder_hidden, encoder_output)
         loss += self._custom_loss_function(decoder_target[:, t], pred_prob)
         decoder_input = tf.expand_dims(decoder_target[:, t], 1)
     batch_loss = loss / int(decoder_target.shape[1])  # normalizing in time
@@ -112,7 +112,7 @@ class Runner(object):
     result[:, 0] = self.decoder_tokenizer.word_index['\t']
     decoder_input = tf.expand_dims(result[:, 0], 1)
     for t in range(1, max_target_len):
-      pred_prob, decoder_hidden, attention_w = self.decoder(decoder_input, decoder_hidden, encoder_output)
+      pred_prob, decoder_hidden, attention_w, _ = self.decoder(decoder_input, decoder_hidden, encoder_output)
       pred_id = tf.argmax(pred_prob, -1)
       result[:, t] = pred_id[:, 0]
       if attention_w.shape != (0, 0):
@@ -157,7 +157,7 @@ class Runner(object):
     Calculates the gradient with respect to the input embedding.
     It is used in visualizing connectivity in question 6.
     """
-    prediction, gradients = [], []
+    prediction, raw_decoder_outputs = [], []
     encoder_hidden = self.encoder.initialize_hidden_state(1)
     inp_embed = self.encoder.embed(input_word)
     with tf.GradientTape(persistent=True) as tape:
@@ -168,12 +168,13 @@ class Runner(object):
       encoder_output, decoder_hidden = x[0], x[1:]
       decoder_input = tf.expand_dims([self.decoder_tokenizer.word_index['\t']], 1)
       for t in range(1, max_target_len):
-        pred_prob, decoder_hidden, _ = self.decoder(decoder_input, decoder_hidden, encoder_output)
-        gradients.append(tape.gradient(pred_prob, inp_embed)[0])
+        pred_prob, decoder_hidden, attention, raw_out = self.decoder(decoder_input, decoder_hidden, encoder_output)
+        raw_decoder_outputs.append(raw_out)
         pred_id = tf.argmax(pred_prob, -1)
         prediction.append(int(pred_id[0, 0]))
         decoder_input = pred_id
         if prediction[-1] == self.decoder_tokenizer.word_index['\n']:
           break
+    gradients = [tape.gradient(out, inp_embed)[0] for out in raw_decoder_outputs]
     return prediction, gradients
 
