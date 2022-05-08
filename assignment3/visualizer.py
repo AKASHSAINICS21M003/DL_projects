@@ -42,24 +42,20 @@ class Visualizer(object):
     return z
 
   def viz_connectivity(self, encoder_input, max_target_len=21):
-    """
-    Visualizes connectivity in question 6
-    """
     runner = self.runner
     for inp in encoder_input:
-      pred, grads = runner.get_embedding_gradient(tf.expand_dims(inp, 0), max_target_len)
+      pred, grads = self.get_embedding_gradient(tf.expand_dims(inp, 0), max_target_len)
       orig_word = runner.index_word(runner.encoder_tokenizer, inp)[:-1]
       pred_word = runner.index_word(runner.decoder_tokenizer, pred)[:-1]
       print(f"\nVisualizing tranliteration of word {orig_word}")
-      for gd in grads:
-        norm = tf.norm(gd, axis=1)[:len(orig_word)]
+      for i, pw in enumerate(pred_word):
+        norm = tf.norm(grads[i], axis=1)[:len(orig_word)]
         scaled = self.scale(norm)
-        for pw in pred_word:
-          print(f"For predicting char {pw}: ", end=" ")
-          word_color = []
-          for i in range(len(orig_word)):
-            word_color.append((orig_word[i], self.get_clr(scaled[i])))
-          self.print_color(word_color)
+        print(f"For predicting char {pw}: ", end=" ")
+        word_color = []
+        for j, ow in enumerate(orig_word):
+          word_color.append((ow, self.get_clr(scaled[j])))
+        self.print_color(word_color)
 
   def viz_attention(self, encoder_input, max_target_len):
     """
