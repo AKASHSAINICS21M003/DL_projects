@@ -85,8 +85,8 @@ class Decoder(BaseModel):
     if self.num_decoder_layers > 1:
       x = self.stacked_rnn(x[0])
     output, state = x[0], x[1:]
-    output = self.dense(output)
-    return (output, state, attention_weights)
+    prob = self.dense(output)
+    return (prob, state, attention_weights, output)
 
 
 class Attention(tf.keras.layers.Layer):
